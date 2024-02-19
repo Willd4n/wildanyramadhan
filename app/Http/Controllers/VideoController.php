@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth; // Imor kelas Auth
 
 class VideoController extends Controller
 {
@@ -14,7 +15,7 @@ class VideoController extends Controller
     public function index()
     {
         $videos = Video::latest()->paginate(3);
-        return view('video.index', compact('videos'))->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('video.index', compact('videos'))->with('i', (request()->input('page', 1) - 1) * 3);
     }
 
     /**
@@ -36,26 +37,23 @@ class VideoController extends Controller
         } else {
             $videos = new Video;
         }
-    
-        $request->validate([
-            'video' => 'required|file|mimes:mp4,jpeg,png,jpg,gif|max:10048',
-            'caption' => 'required|max:100',
-        ]);
-    
-        if ($request->hasFile('video')) {
+        if($request->hasFile('video')){
             $video = $request->file('video');
-            $videoName = time() . '.' . $video->getClientOriginalExtension();
+            $request->validate([
+                'video' => 'required|file|mimes:mp4,jpeg,png,jpg,gif|max:10048',
+               
+            ]);
+            $videoName = time() . '.' .$video->getClientOriginalExtension();
             $destinationPath = 'video/';
             $video->move($destinationPath, $videoName);
             $videos->video = $videoName;
         }
-    
-        $videos->created_by = $request->created_by;
+        $videos->created_by = Auth::id();
         $videos->caption = $request->caption;
         $videos->save();
-    
         return redirect()->route('vidio.index')->with('success', 'Video Berhasil di Unggah!');
     }
+
 
     /**
      * Remove the specified resource from storage.

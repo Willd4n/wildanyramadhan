@@ -4,10 +4,10 @@
 <div class="row mt-5 mb-5">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h2>Create New Video</h2>
+            <h2>Create New Feed</h2>
         </div>
         <div class="float-right">
-            <a class="btn btn-secondary" href="{{ route('vidio.index') }}"> Kembali</a>
+            <a class="btn btn-info" href="{{ route('vidio.index') }}"> Kembali</a>
         </div>
     </div>
 </div>
@@ -26,13 +26,7 @@
 <form method="post" action="{{ route('vidio.store') }}" enctype="multipart/form-data">
     @csrf
 
-     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>User:</strong>
-                <input type="text" name="created_by" class="form-control" placeholder="created_by">
-            </div>
-        </div>
+ <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Video:</strong>
@@ -46,7 +40,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-info">Submit</button>
         </div>
     </div>
 
